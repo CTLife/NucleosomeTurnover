@@ -1,4 +1,4 @@
 # NucleosomeTurnover
-##Upstream and Downstream of locus-specific nucleosome turnover in adult mouse cardiomyocytes (as a instance or representation of non-proliferating mammalian cells).                      
+##Genome-wide Dynamics of Locus-specific Nucleosome Turnover in Non-proliferating Mammalian Cells.                      
 
 
