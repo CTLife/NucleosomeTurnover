@@ -1,8 +1,7 @@
 #############################################################################################################################
-## Part 2:  Reads in the data (Read in the input matrix data), and reduce the dimension (rows or columns) of matrix, 
-##          and statistics the information of input files.
-##          We should get a n*m matrix that means it contains n rows (n DNA fragment) and m columns (m bin, 1 bin=10bp).
-##          The element of matrix is reads density: log2(ChIP-input>0) 
+## Part  2:  Read in the input matrix data, and reduce the dimensions (rows or columns) of matrix, and save the information of input files.
+##              We should get a n*m matrix that means it contains n rows (n DNA fragment) and m columns (m bin, 1 bin=10bp).
+##              The element of matrix is reads density: ChIP-input (If ChIP-input <0, we let it = 0)
 #############################################################################################################################
 
 
@@ -73,6 +72,42 @@ dim(three3_week4_EEDko_rep2)
 
 
 
+summary( unlist(one1_H3_normal_rep1) )
+summary( unlist(one1_week0_EEDheto_rep1) )
+summary( unlist(one1_week0_EEDheto_rep2) )  
+summary( unlist(one1_week0_EEDko_rep1) )  
+summary( unlist(one1_week4_EEDheto_rep1) )
+summary( unlist(one1_week4_EEDheto_rep2) )
+summary( unlist(one1_week4_EEDko_rep1) ) 
+summary( unlist(one1_week4_EEDko_rep2) )
+
+summary( unlist(two2_H3_normal_rep1) )
+summary( unlist(two2_week0_EEDheto_rep1) )
+summary( unlist(two2_week0_EEDheto_rep2) )  
+summary( unlist(two2_week0_EEDko_rep1) )  
+summary( unlist(two2_week4_EEDheto_rep1) )
+summary( unlist(two2_week4_EEDheto_rep2) )
+summary( unlist(two2_week4_EEDko_rep1) ) 
+summary( unlist(two2_week4_EEDko_rep2) )
+
+summary( unlist(three3_H3_normal_rep1) )
+summary( unlist(three3_week0_EEDheto_rep1) )
+summary( unlist(three3_week0_EEDheto_rep2) )  
+summary( unlist(three3_week0_EEDko_rep1) )  
+summary( unlist(three3_week4_EEDheto_rep1) )
+summary( unlist(three3_week4_EEDheto_rep2) )
+summary( unlist(three3_week4_EEDko_rep1) ) 
+summary( unlist(three3_week4_EEDko_rep2) )
+
+
+myTestVector1 <- three3_H3_normal_rep1
+myTestVector1[15, 38]  <- NA
+summary( unlist(myTestVector1) )
+myTestVector1[12, 558]  <- Inf
+summary( unlist(myTestVector1) )
+
+
+
 
 
 
@@ -138,6 +173,41 @@ dim(three3_week4_EEDko_rep2)
 
 
 
+summary( as.vector(one1_H3_normal_rep1) )
+summary( as.vector(one1_week0_EEDheto_rep1) )
+summary( as.vector(one1_week0_EEDheto_rep2) )  
+summary( as.vector(one1_week0_EEDko_rep1) )  
+summary( as.vector(one1_week4_EEDheto_rep1) )
+summary( as.vector(one1_week4_EEDheto_rep2) )
+summary( as.vector(one1_week4_EEDko_rep1) ) 
+summary( as.vector(one1_week4_EEDko_rep2) )
+
+summary( as.vector(two2_H3_normal_rep1) )
+summary( as.vector(two2_week0_EEDheto_rep1) )
+summary( as.vector(two2_week0_EEDheto_rep2) )  
+summary( as.vector(two2_week0_EEDko_rep1) )  
+summary( as.vector(two2_week4_EEDheto_rep1) )
+summary( as.vector(two2_week4_EEDheto_rep2) )
+summary( as.vector(two2_week4_EEDko_rep1) ) 
+summary( as.vector(two2_week4_EEDko_rep2) )
+
+summary( as.vector(three3_H3_normal_rep1) )
+summary( as.vector(three3_week0_EEDheto_rep1) )
+summary( as.vector(three3_week0_EEDheto_rep2) )  
+summary( as.vector(three3_week0_EEDko_rep1) )  
+summary( as.vector(three3_week4_EEDheto_rep1) )
+summary( as.vector(three3_week4_EEDheto_rep2) )
+summary( as.vector(three3_week4_EEDko_rep1) ) 
+summary( as.vector(three3_week4_EEDko_rep2) )
+
+
+
+
+
+
+
+
+
 
 
 
@@ -161,6 +231,48 @@ Average_three3_week0_EEDheto  <- (three3_week0_EEDheto_rep1+ three3_week0_EEDhet
 Average_three3_week0_EEDko    <- (three3_week0_EEDko_rep1+ three3_week0_EEDko_rep1)/2  
 Average_three3_week4_EEDheto  <- (three3_week4_EEDheto_rep1+ three3_week4_EEDheto_rep2)/2
 Average_three3_week4_EEDko    <- (three3_week4_EEDko_rep1+ three3_week4_EEDko_rep2)/2 
+
+
+dim(Average_one1_H3_normal) 
+dim(Average_one1_week0_EEDheto) 
+dim(Average_one1_week0_EEDko) 
+dim(Average_one1_week4_EEDheto) 
+dim(Average_one1_week4_EEDko) 
+
+dim(Average_two2_H3_normal) 
+dim(Average_two2_week0_EEDheto) 
+dim(Average_two2_week0_EEDko) 
+dim(Average_two2_week4_EEDheto) 
+dim(Average_two2_week4_EEDko) 
+
+dim(Average_three3_H3_normal) 
+dim(Average_three3_week0_EEDheto) 
+dim(Average_three3_week0_EEDko) 
+dim(Average_three3_week4_EEDheto) 
+dim(Average_three3_week4_EEDko) 
+
+
+
+summary( as.vector(Average_one1_H3_normal) ) 
+summary( as.vector(Average_one1_week0_EEDheto) ) 
+summary( as.vector(Average_one1_week0_EEDko) ) 
+summary( as.vector(Average_one1_week4_EEDheto) ) 
+summary( as.vector(Average_one1_week4_EEDko) ) 
+
+summary( as.vector(Average_two2_H3_normal) ) 
+summary( as.vector(Average_two2_week0_EEDheto) ) 
+summary( as.vector(Average_two2_week0_EEDko) ) 
+summary( as.vector(Average_two2_week4_EEDheto) ) 
+summary( as.vector(Average_two2_week4_EEDko) ) 
+
+summary( as.vector(Average_three3_H3_normal) ) 
+summary( as.vector(Average_three3_week0_EEDheto) ) 
+summary( as.vector(Average_three3_week0_EEDko) ) 
+summary( as.vector(Average_three3_week4_EEDheto) ) 
+summary( as.vector(Average_three3_week4_EEDko) ) 
+
+
+
 
 
 
@@ -463,34 +575,32 @@ SEM_three3_week4_EEDko[-NonZero_three3_1]   <- NA
 
 
 ## reduce rows:
-reduceRow_Average_one1_week0_EEDheto 	<-	reduceMatrixRow(Average_one1_week0_EEDheto,    rowNum_1=10 ) 
-reduceRow_Average_one1_week0_EEDko   	<-	reduceMatrixRow(Average_one1_week0_EEDko,      rowNum_1=10 )   
-reduceRow_Average_one1_week4_EEDheto 	<-	reduceMatrixRow(Average_one1_week4_EEDheto,    rowNum_1=10 ) 
-reduceRow_Average_one1_week4_EEDko      <-	reduceMatrixRow(Average_one1_week4_EEDko,      rowNum_1=10 )    
-dim(reduceRow_Average_one1_week0_EEDheto) 
-dim(reduceRow_Average_one1_week0_EEDko)   
-dim(reduceRow_Average_one1_week4_EEDheto) 
-dim(reduceRow_Average_one1_week4_EEDko)    
+reduceRow1_Average_one1_week0_EEDheto 	<-	reduceMatrixRow(Average_one1_week0_EEDheto,    rowNum_1=5 ) 
+reduceRow1_Average_one1_week0_EEDko   	<-	reduceMatrixRow(Average_one1_week0_EEDko,      rowNum_1=5 )   
+reduceRow1_Average_one1_week4_EEDheto 	<-	reduceMatrixRow(Average_one1_week4_EEDheto,    rowNum_1=5 ) 
+reduceRow1_Average_one1_week4_EEDko      <-	reduceMatrixRow(Average_one1_week4_EEDko,      rowNum_1=5 )    
+dim(reduceRow1_Average_one1_week0_EEDheto) 
+dim(reduceRow1_Average_one1_week0_EEDko)   
+dim(reduceRow1_Average_one1_week4_EEDheto) 
+dim(reduceRow1_Average_one1_week4_EEDko)    
 
-reduceRow_Average_two2_week0_EEDheto 	<-	reduceMatrixRow(Average_two2_week0_EEDheto,    rowNum_1=10 ) 
-reduceRow_Average_two2_week0_EEDko   	<-	reduceMatrixRow(Average_two2_week0_EEDko,      rowNum_1=10 )   
-reduceRow_Average_two2_week4_EEDheto 	<-	reduceMatrixRow(Average_two2_week4_EEDheto,    rowNum_1=10 ) 
-reduceRow_Average_two2_week4_EEDko    <-	reduceMatrixRow(Average_two2_week4_EEDko,      rowNum_1=10 )    
-dim(reduceRow_Average_two2_week0_EEDheto) 
-dim(reduceRow_Average_two2_week0_EEDko)   
-dim(reduceRow_Average_two2_week4_EEDheto) 
-dim(reduceRow_Average_two2_week4_EEDko)    
+reduceRow1_Average_two2_week0_EEDheto 	<-	reduceMatrixRow(Average_two2_week0_EEDheto,    rowNum_1=5 ) 
+reduceRow1_Average_two2_week0_EEDko   	<-	reduceMatrixRow(Average_two2_week0_EEDko,      rowNum_1=5 )   
+reduceRow1_Average_two2_week4_EEDheto 	<-	reduceMatrixRow(Average_two2_week4_EEDheto,    rowNum_1=5 ) 
+reduceRow1_Average_two2_week4_EEDko    <-	reduceMatrixRow(Average_two2_week4_EEDko,      rowNum_1=5 )    
+dim(reduceRow1_Average_two2_week0_EEDheto) 
+dim(reduceRow1_Average_two2_week0_EEDko)   
+dim(reduceRow1_Average_two2_week4_EEDheto) 
+dim(reduceRow1_Average_two2_week4_EEDko)    
 
-reduceRow_Average_three3_week0_EEDheto 	<-	reduceMatrixRow(Average_three3_week0_EEDheto,    rowNum_1=10 ) 
-reduceRow_Average_three3_week0_EEDko   	<-	reduceMatrixRow(Average_three3_week0_EEDko,      rowNum_1=10 )   
-reduceRow_Average_three3_week4_EEDheto 	<-	reduceMatrixRow(Average_three3_week4_EEDheto,    rowNum_1=10 ) 
-reduceRow_Average_three3_week4_EEDko        <-	reduceMatrixRow(Average_three3_week4_EEDko,      rowNum_1=10 )    
-dim(reduceRow_Average_three3_week0_EEDheto) 
-dim(reduceRow_Average_three3_week0_EEDko)   
-dim(reduceRow_Average_three3_week4_EEDheto) 
-dim(reduceRow_Average_three3_week4_EEDko)    
-
-
+reduceRow1_Average_three3_week0_EEDheto 	<-	reduceMatrixRow(Average_three3_week0_EEDheto,    rowNum_1=5 ) 
+reduceRow1_Average_three3_week0_EEDko   	<-	reduceMatrixRow(Average_three3_week0_EEDko,      rowNum_1=5 )   
+reduceRow1_Average_three3_week4_EEDheto 	<-	reduceMatrixRow(Average_three3_week4_EEDheto,    rowNum_1=5 ) 
+reduceRow1_Average_three3_week4_EEDko        <-	reduceMatrixRow(Average_three3_week4_EEDko,      rowNum_1=5 )    
+dim(reduceRow1_Average_three3_week0_EEDheto) 
+dim(reduceRow1_Average_three3_week0_EEDko)   
+dim(reduceRow1_Average_three3_week4_EEDheto) 
+dim(reduceRow1_Average_three3_week4_EEDko)    
 
 
 
@@ -498,34 +608,111 @@ dim(reduceRow_Average_three3_week4_EEDko)
 
 
 
+## reduce rows:
+reduceRow2_Average_one1_week0_EEDheto 	<-	reduceMatrixRow(Average_one1_week0_EEDheto,    rowNum_1=20 ) 
+reduceRow2_Average_one1_week0_EEDko   	<-	reduceMatrixRow(Average_one1_week0_EEDko,      rowNum_1=20 )   
+reduceRow2_Average_one1_week4_EEDheto 	<-	reduceMatrixRow(Average_one1_week4_EEDheto,    rowNum_1=20 ) 
+reduceRow2_Average_one1_week4_EEDko      <-	reduceMatrixRow(Average_one1_week4_EEDko,      rowNum_1=20 )    
+dim(reduceRow2_Average_one1_week0_EEDheto) 
+dim(reduceRow2_Average_one1_week0_EEDko)   
+dim(reduceRow2_Average_one1_week4_EEDheto) 
+dim(reduceRow2_Average_one1_week4_EEDko)    
 
-## reduce columns:
-reduceColumn_Average_one1_week0_EEDheto 	<-	reduceMatrixCol(Average_one1_week0_EEDheto,    colNum_1=10 ) 
-reduceColumn_Average_one1_week0_EEDko   	<-	reduceMatrixCol(Average_one1_week0_EEDko,      colNum_1=10 )   
-reduceColumn_Average_one1_week4_EEDheto 	<-	reduceMatrixCol(Average_one1_week4_EEDheto,    colNum_1=10 ) 
-reduceColumn_Average_one1_week4_EEDko   	<-	reduceMatrixCol(Average_one1_week4_EEDko,      colNum_1=10 )    
-dim(reduceColumn_Average_one1_week0_EEDheto) 
-dim(reduceColumn_Average_one1_week0_EEDko)   
-dim(reduceColumn_Average_one1_week4_EEDheto) 
-dim(reduceColumn_Average_one1_week4_EEDko)    
+reduceRow2_Average_two2_week0_EEDheto 	<-	reduceMatrixRow(Average_two2_week0_EEDheto,    rowNum_1=20 ) 
+reduceRow2_Average_two2_week0_EEDko   	<-	reduceMatrixRow(Average_two2_week0_EEDko,      rowNum_1=20 )   
+reduceRow2_Average_two2_week4_EEDheto 	<-	reduceMatrixRow(Average_two2_week4_EEDheto,    rowNum_1=20 ) 
+reduceRow2_Average_two2_week4_EEDko    <-	reduceMatrixRow(Average_two2_week4_EEDko,      rowNum_1=20 )    
+dim(reduceRow2_Average_two2_week0_EEDheto) 
+dim(reduceRow2_Average_two2_week0_EEDko)   
+dim(reduceRow2_Average_two2_week4_EEDheto) 
+dim(reduceRow2_Average_two2_week4_EEDko)    
 
-reduceColumn_Average_two2_week0_EEDheto 	<-	reduceMatrixCol(Average_two2_week0_EEDheto,    colNum_1=10 ) 
-reduceColumn_Average_two2_week0_EEDko   	<-	reduceMatrixCol(Average_two2_week0_EEDko,      colNum_1=10 )   
-reduceColumn_Average_two2_week4_EEDheto 	<-	reduceMatrixCol(Average_two2_week4_EEDheto,    colNum_1=10 ) 
-reduceColumn_Average_two2_week4_EEDko  	        <-	reduceMatrixCol(Average_two2_week4_EEDko,      colNum_1=10 )    
-dim(reduceColumn_Average_two2_week0_EEDheto) 
-dim(reduceColumn_Average_two2_week0_EEDko)   
-dim(reduceColumn_Average_two2_week4_EEDheto) 
-dim(reduceColumn_Average_two2_week4_EEDko)    
+reduceRow2_Average_three3_week0_EEDheto 	<-	reduceMatrixRow(Average_three3_week0_EEDheto,    rowNum_1=20 ) 
+reduceRow2_Average_three3_week0_EEDko   	<-	reduceMatrixRow(Average_three3_week0_EEDko,      rowNum_1=20 )   
+reduceRow2_Average_three3_week4_EEDheto 	<-	reduceMatrixRow(Average_three3_week4_EEDheto,    rowNum_1=20 ) 
+reduceRow2_Average_three3_week4_EEDko        <-	reduceMatrixRow(Average_three3_week4_EEDko,      rowNum_1=20 )    
+dim(reduceRow2_Average_three3_week0_EEDheto) 
+dim(reduceRow2_Average_three3_week0_EEDko)   
+dim(reduceRow2_Average_three3_week4_EEDheto) 
+dim(reduceRow2_Average_three3_week4_EEDko)    
 
-reduceColumn_Average_three3_week0_EEDheto 	<-	reduceMatrixCol(Average_three3_week0_EEDheto,    colNum_1=10 ) 
-reduceColumn_Average_three3_week0_EEDko   	<-	reduceMatrixCol(Average_three3_week0_EEDko,      colNum_1=10 )   
-reduceColumn_Average_three3_week4_EEDheto 	<-	reduceMatrixCol(Average_three3_week4_EEDheto,    colNum_1=10 ) 
-reduceColumn_Average_three3_week4_EEDko  	<-	reduceMatrixCol(Average_three3_week4_EEDko,      colNum_1=10 )    
-dim(reduceColumn_Average_three3_week0_EEDheto) 
-dim(reduceColumn_Average_three3_week0_EEDko)   
-dim(reduceColumn_Average_three3_week4_EEDheto) 
-dim(reduceColumn_Average_three3_week4_EEDko)    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## reduce columns, per bin contains 1000bp.
+reduceColumn1_Average_one1_week0_EEDheto 	<-	reduceMatrixCol(Average_one1_week0_EEDheto,    colNum_1=6 ) 
+reduceColumn1_Average_one1_week0_EEDko   	<-	reduceMatrixCol(Average_one1_week0_EEDko,      colNum_1=6 )   
+reduceColumn1_Average_one1_week4_EEDheto 	<-	reduceMatrixCol(Average_one1_week4_EEDheto,    colNum_1=6 ) 
+reduceColumn1_Average_one1_week4_EEDko   	<-	reduceMatrixCol(Average_one1_week4_EEDko,      colNum_1=6 )    
+dim(reduceColumn1_Average_one1_week0_EEDheto) 
+dim(reduceColumn1_Average_one1_week0_EEDko)   
+dim(reduceColumn1_Average_one1_week4_EEDheto) 
+dim(reduceColumn1_Average_one1_week4_EEDko)    
+
+reduceColumn1_Average_two2_week0_EEDheto 	<-	reduceMatrixCol(Average_two2_week0_EEDheto,    colNum_1=6 ) 
+reduceColumn1_Average_two2_week0_EEDko   	<-	reduceMatrixCol(Average_two2_week0_EEDko,      colNum_1=6 )   
+reduceColumn1_Average_two2_week4_EEDheto 	<-	reduceMatrixCol(Average_two2_week4_EEDheto,    colNum_1=6 ) 
+reduceColumn1_Average_two2_week4_EEDko  	        <-	reduceMatrixCol(Average_two2_week4_EEDko,      colNum_1=6 )    
+dim(reduceColumn1_Average_two2_week0_EEDheto) 
+dim(reduceColumn1_Average_two2_week0_EEDko)   
+dim(reduceColumn1_Average_two2_week4_EEDheto) 
+dim(reduceColumn1_Average_two2_week4_EEDko)    
+
+reduceColumn1_Average_three3_week0_EEDheto 	<-	reduceMatrixCol(Average_three3_week0_EEDheto,    colNum_1=6 ) 
+reduceColumn1_Average_three3_week0_EEDko   	<-	reduceMatrixCol(Average_three3_week0_EEDko,      colNum_1=6 )   
+reduceColumn1_Average_three3_week4_EEDheto 	<-	reduceMatrixCol(Average_three3_week4_EEDheto,    colNum_1=6 ) 
+reduceColumn1_Average_three3_week4_EEDko  	<-	reduceMatrixCol(Average_three3_week4_EEDko,      colNum_1=6 )    
+dim(reduceColumn1_Average_three3_week0_EEDheto) 
+dim(reduceColumn1_Average_three3_week0_EEDko)   
+dim(reduceColumn1_Average_three3_week4_EEDheto) 
+dim(reduceColumn1_Average_three3_week4_EEDko)    
+
+
+
+
+
+
+
+## reduce columns, per bin contains 200bp.
+reduceColumn2_Average_one1_week0_EEDheto 	<-	reduceMatrixCol(Average_one1_week0_EEDheto,    colNum_1=30 ) 
+reduceColumn2_Average_one1_week0_EEDko   	<-	reduceMatrixCol(Average_one1_week0_EEDko,      colNum_1=30 )   
+reduceColumn2_Average_one1_week4_EEDheto 	<-	reduceMatrixCol(Average_one1_week4_EEDheto,    colNum_1=30 ) 
+reduceColumn2_Average_one1_week4_EEDko   	<-	reduceMatrixCol(Average_one1_week4_EEDko,      colNum_1=30 )    
+dim(reduceColumn2_Average_one1_week0_EEDheto) 
+dim(reduceColumn2_Average_one1_week0_EEDko)   
+dim(reduceColumn2_Average_one1_week4_EEDheto) 
+dim(reduceColumn2_Average_one1_week4_EEDko)    
+
+reduceColumn2_Average_two2_week0_EEDheto 	<-	reduceMatrixCol(Average_two2_week0_EEDheto,    colNum_1=30 ) 
+reduceColumn2_Average_two2_week0_EEDko   	<-	reduceMatrixCol(Average_two2_week0_EEDko,      colNum_1=30 )   
+reduceColumn2_Average_two2_week4_EEDheto 	<-	reduceMatrixCol(Average_two2_week4_EEDheto,    colNum_1=30 ) 
+reduceColumn2_Average_two2_week4_EEDko  	<-	reduceMatrixCol(Average_two2_week4_EEDko,      colNum_1=30 )    
+dim(reduceColumn2_Average_two2_week0_EEDheto) 
+dim(reduceColumn2_Average_two2_week0_EEDko)   
+dim(reduceColumn2_Average_two2_week4_EEDheto) 
+dim(reduceColumn2_Average_two2_week4_EEDko)    
+
+reduceColumn2_Average_three3_week0_EEDheto 	<-	reduceMatrixCol(Average_three3_week0_EEDheto,    colNum_1=30 ) 
+reduceColumn2_Average_three3_week0_EEDko   	<-	reduceMatrixCol(Average_three3_week0_EEDko,      colNum_1=30 )   
+reduceColumn2_Average_three3_week4_EEDheto 	<-	reduceMatrixCol(Average_three3_week4_EEDheto,    colNum_1=30 ) 
+reduceColumn2_Average_three3_week4_EEDko  	<-	reduceMatrixCol(Average_three3_week4_EEDko,      colNum_1=30 )    
+dim(reduceColumn2_Average_three3_week0_EEDheto) 
+dim(reduceColumn2_Average_three3_week0_EEDko)   
+dim(reduceColumn2_Average_three3_week4_EEDheto) 
+dim(reduceColumn2_Average_three3_week4_EEDko)    
+
 
 
 
@@ -650,6 +837,10 @@ col_NOL_min2 <-min( c(column_one1_week0_EEDheto_rep1_smooth, column_one1_week0_E
 
 col_NOL_max2
 col_NOL_min2
+
+
+
+
 
 
 
