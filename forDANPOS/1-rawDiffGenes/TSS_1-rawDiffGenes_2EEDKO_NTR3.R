@@ -1049,6 +1049,17 @@ MyHistogram_3(vector2=row_Average_three3_week4_EEDko,
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 ###############################################################################
 subdir_6_part3 <- paste(Part3_g,  "/6-averageRowsOfCenterColumns-Cmp", sep = "")
 if( ! file.exists(subdir_6_part3) ) { dir.create(subdir_6_part3) }
@@ -1191,69 +1202,70 @@ MyHistogram_7(vector2=c(row_Average_three3_week0_EEDheto,  row_Average_three3_we
 
 
 
-
+##Lowest: 0%~20%
+##Low: 20%~40% 
+##Medium: 40%~60% 
+##High: 60%~80% 
+##Highest: 80%~100%
 ###############################################################################
 subdir_7_part3 <- paste(Part3_g,  "/7-rows5Classes-curve", sep = "")
 if( ! file.exists(subdir_7_part3) ) { dir.create(subdir_7_part3) }
 
 
+dim(reduceRow1_Average_one1_week0_EEDheto) 
+dim(reduceRow1_Average_one1_week0_EEDko)   
+dim(reduceRow1_Average_one1_week4_EEDheto) 
+dim(reduceRow1_Average_one1_week4_EEDko)    
 
-
-
-dim(reduceRow_Average_one1_week0_EEDheto) 
-dim(reduceRow_Average_one1_week0_EEDko)   
-dim(reduceRow_Average_one1_week4_EEDheto) 
-dim(reduceRow_Average_one1_week4_EEDko)    
-
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_one1_week0_EEDheto[c(1,2), ]),   colMeans(reduceRow_Average_one1_week0_EEDko[c(1,2),]),  
-                              colMeans(reduceRow_Average_one1_week4_EEDheto[c(1,2), ]),   colMeans(reduceRow_Average_one1_week4_EEDko[c(1,2),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_one1_week0_EEDheto[1,],   reduceRow1_Average_one1_week0_EEDko[1,],  
+                              reduceRow1_Average_one1_week4_EEDheto[1,],   reduceRow1_Average_one1_week4_EEDko[1,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="1A-one1-4Samples-curve",  
-                 title2="Down-regulated Genes (0%~20%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Down-regulated Genes (Lowest)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_one1_week0_EEDheto[c(3,4), ]),   colMeans(reduceRow_Average_one1_week0_EEDko[c(3,4),]),  
-                              colMeans(reduceRow_Average_one1_week4_EEDheto[c(3,4), ]),   colMeans(reduceRow_Average_one1_week4_EEDko[c(3,4),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_one1_week0_EEDheto[2,],   reduceRow1_Average_one1_week0_EEDko[2,],  
+                              reduceRow1_Average_one1_week4_EEDheto[2,],   reduceRow1_Average_one1_week4_EEDko[2,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="1B-one1-4Samples-curve",  
-                 title2="Down-regulated Genes (20%~40%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Down-regulated Genes (Low)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_one1_week0_EEDheto[c(5,6), ]),   colMeans(reduceRow_Average_one1_week0_EEDko[c(5,6),]),  
-                              colMeans(reduceRow_Average_one1_week4_EEDheto[c(5,6), ]),   colMeans(reduceRow_Average_one1_week4_EEDko[c(5,6),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_one1_week0_EEDheto[3,],   reduceRow1_Average_one1_week0_EEDko[3,],  
+                              reduceRow1_Average_one1_week4_EEDheto[3,],   reduceRow1_Average_one1_week4_EEDko[3,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="1C-one1-4Samples-curve",  
-                 title2="Down-regulated Genes (40%~60%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Down-regulated Genes (Medium)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_one1_week0_EEDheto[c(7,8), ]),   colMeans(reduceRow_Average_one1_week0_EEDko[c(7,8),]),  
-                              colMeans(reduceRow_Average_one1_week4_EEDheto[c(7,8), ]),   colMeans(reduceRow_Average_one1_week4_EEDko[c(7,8),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_one1_week0_EEDheto[4,],   reduceRow1_Average_one1_week0_EEDko[4,],  
+                              reduceRow1_Average_one1_week4_EEDheto[4,],   reduceRow1_Average_one1_week4_EEDko[4,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="1D-one1-4Samples-curve",  
-                 title2="Down-regulated Genes (60%~80%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Down-regulated Genes (High)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_one1_week0_EEDheto[c(9,10), ]),   colMeans(reduceRow_Average_one1_week0_EEDko[c(9,10),]),  
-                              colMeans(reduceRow_Average_one1_week4_EEDheto[c(9,10), ]),   colMeans(reduceRow_Average_one1_week4_EEDko[c(9,10),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_one1_week0_EEDheto[5,],   reduceRow1_Average_one1_week0_EEDko[5,],  
+                              reduceRow1_Average_one1_week4_EEDheto[5,],   reduceRow1_Average_one1_week4_EEDko[5,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="1E-one1-4Samples-curve",  
-                 title2="Down-regulated Genes (80%~100%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Down-regulated Genes (Highest)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
 
@@ -1267,61 +1279,60 @@ MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_one1_week0_EEDheto[c(9,
 
 
 
+dim(reduceRow1_Average_two2_week0_EEDheto) 
+dim(reduceRow1_Average_two2_week0_EEDko)   
+dim(reduceRow1_Average_two2_week4_EEDheto) 
+dim(reduceRow1_Average_two2_week4_EEDko)    
 
-dim(reduceRow_Average_two2_week0_EEDheto) 
-dim(reduceRow_Average_two2_week0_EEDko)   
-dim(reduceRow_Average_two2_week4_EEDheto) 
-dim(reduceRow_Average_two2_week4_EEDko)    
-
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_two2_week0_EEDheto[c(1,2), ]),   colMeans(reduceRow_Average_two2_week0_EEDko[c(1,2),]),  
-                              colMeans(reduceRow_Average_two2_week4_EEDheto[c(1,2), ]),   colMeans(reduceRow_Average_two2_week4_EEDko[c(1,2),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_two2_week0_EEDheto[1,],   reduceRow1_Average_two2_week0_EEDko[1,],  
+                              reduceRow1_Average_two2_week4_EEDheto[1,],   reduceRow1_Average_two2_week4_EEDko[1,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="2A-two2-4Samples-curve",  
-                 title2="Unchanged Genes (0%~20%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Unchanged Genes (Lowest)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_two2_week0_EEDheto[c(3,4), ]),   colMeans(reduceRow_Average_two2_week0_EEDko[c(3,4),]),  
-                              colMeans(reduceRow_Average_two2_week4_EEDheto[c(3,4), ]),   colMeans(reduceRow_Average_two2_week4_EEDko[c(3,4),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_two2_week0_EEDheto[2,],   reduceRow1_Average_two2_week0_EEDko[2,],  
+                              reduceRow1_Average_two2_week4_EEDheto[2,],   reduceRow1_Average_two2_week4_EEDko[2,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="2B-two2-4Samples-curve",  
-                 title2="Unchanged Genes (20%~40%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Unchanged Genes (Low)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_two2_week0_EEDheto[c(5,6), ]),   colMeans(reduceRow_Average_two2_week0_EEDko[c(5,6),]),  
-                              colMeans(reduceRow_Average_two2_week4_EEDheto[c(5,6), ]),   colMeans(reduceRow_Average_two2_week4_EEDko[c(5,6),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_two2_week0_EEDheto[3,],   reduceRow1_Average_two2_week0_EEDko[3,],  
+                              reduceRow1_Average_two2_week4_EEDheto[3,],   reduceRow1_Average_two2_week4_EEDko[3,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="2C-two2-4Samples-curve",  
-                 title2="Unchanged Genes (40%~60%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Unchanged Genes (Medium)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_two2_week0_EEDheto[c(7,8), ]),   colMeans(reduceRow_Average_two2_week0_EEDko[c(7,8),]),  
-                              colMeans(reduceRow_Average_two2_week4_EEDheto[c(7,8), ]),   colMeans(reduceRow_Average_two2_week4_EEDko[c(7,8),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_two2_week0_EEDheto[4,],   reduceRow1_Average_two2_week0_EEDko[4,],  
+                              reduceRow1_Average_two2_week4_EEDheto[4,],   reduceRow1_Average_two2_week4_EEDko[4,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="2D-two2-4Samples-curve",  
-                 title2="Unchanged Genes (60%~80%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Unchanged Genes (High)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_two2_week0_EEDheto[c(9,10), ]),   colMeans(reduceRow_Average_two2_week0_EEDko[c(9,10),]),  
-                              colMeans(reduceRow_Average_two2_week4_EEDheto[c(9,10), ]),   colMeans(reduceRow_Average_two2_week4_EEDko[c(9,10),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_two2_week0_EEDheto[5,],   reduceRow1_Average_two2_week0_EEDko[5,],  
+                              reduceRow1_Average_two2_week4_EEDheto[5,],   reduceRow1_Average_two2_week4_EEDko[5,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="2E-two2-4Samples-curve",  
-                 title2="Unchanged Genes (80%~100%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Unchanged Genes (Highest)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
 
@@ -1334,71 +1345,61 @@ MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_two2_week0_EEDheto[c(9,
 
 
 
+dim(reduceRow1_Average_three3_week0_EEDheto) 
+dim(reduceRow1_Average_three3_week0_EEDko)   
+dim(reduceRow1_Average_three3_week4_EEDheto) 
+dim(reduceRow1_Average_three3_week4_EEDko)    
 
-
-
-
-dim(reduceRow_Average_three3_week0_EEDheto) 
-dim(reduceRow_Average_three3_week0_EEDko)   
-dim(reduceRow_Average_three3_week4_EEDheto) 
-dim(reduceRow_Average_three3_week4_EEDko)    
-
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_three3_week0_EEDheto[c(1,2), ]),   colMeans(reduceRow_Average_three3_week0_EEDko[c(1,2),]),  
-                              colMeans(reduceRow_Average_three3_week4_EEDheto[c(1,2), ]),   colMeans(reduceRow_Average_three3_week4_EEDko[c(1,2),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_three3_week0_EEDheto[1,],   reduceRow1_Average_three3_week0_EEDko[1,],  
+                              reduceRow1_Average_three3_week4_EEDheto[1,],   reduceRow1_Average_three3_week4_EEDko[1,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="3A-three3-4Samples-curve",  
-                 title2="Up-regulated Genes (0%~20%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Up-regulated Genes (Lowest)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_three3_week0_EEDheto[c(3,4), ]),   colMeans(reduceRow_Average_three3_week0_EEDko[c(3,4),]),  
-                              colMeans(reduceRow_Average_three3_week4_EEDheto[c(3,4), ]),   colMeans(reduceRow_Average_three3_week4_EEDko[c(3,4),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_three3_week0_EEDheto[2,],   reduceRow1_Average_three3_week0_EEDko[2,],  
+                              reduceRow1_Average_three3_week4_EEDheto[2,],   reduceRow1_Average_three3_week4_EEDko[2,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="3B-three3-4Samples-curve",  
-                 title2="Up-regulated Genes (20%~40%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Up-regulated Genes (Low)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_three3_week0_EEDheto[c(5,6), ]),   colMeans(reduceRow_Average_three3_week0_EEDko[c(5,6),]),  
-                              colMeans(reduceRow_Average_three3_week4_EEDheto[c(5,6), ]),   colMeans(reduceRow_Average_three3_week4_EEDko[c(5,6),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_three3_week0_EEDheto[3,],   reduceRow1_Average_three3_week0_EEDko[3,],  
+                              reduceRow1_Average_three3_week4_EEDheto[3,],   reduceRow1_Average_three3_week4_EEDko[3,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="3C-three3-4Samples-curve",  
-                 title2="Up-regulated Genes (40%~60%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Up-regulated Genes (Medium)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_three3_week0_EEDheto[c(7,8), ]),   colMeans(reduceRow_Average_three3_week0_EEDko[c(7,8),]),  
-                              colMeans(reduceRow_Average_three3_week4_EEDheto[c(7,8), ]),   colMeans(reduceRow_Average_three3_week4_EEDko[c(7,8),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_three3_week0_EEDheto[4,],   reduceRow1_Average_three3_week0_EEDko[4,],  
+                              reduceRow1_Average_three3_week4_EEDheto[4,],   reduceRow1_Average_three3_week4_EEDko[4,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="3D-three3-4Samples-curve",  
-                 title2="Up-regulated Genes (60%~80%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Up-regulated Genes (High)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
 
 
-MyAverageLines_3(vector2=  c( colMeans(reduceRow_Average_three3_week0_EEDheto[c(9,10), ]),   colMeans(reduceRow_Average_three3_week0_EEDko[c(9,10),]),  
-                              colMeans(reduceRow_Average_three3_week4_EEDheto[c(9,10), ]),   colMeans(reduceRow_Average_three3_week4_EEDko[c(9,10),] ) ), 
+MyAverageLines_3(vector2=  c( reduceRow1_Average_three3_week0_EEDheto[5,],   reduceRow1_Average_three3_week0_EEDko[5,],  
+                              reduceRow1_Average_three3_week4_EEDheto[5,],   reduceRow1_Average_three3_week4_EEDko[5,] ), 
                  numSample2=4,   
                  sampleType2=c( rep("week0_EEDheto", numOfColumns1),   rep("week0_EEDko", numOfColumns1),  rep("week4_EEDheto", numOfColumns1),   rep("week4_EEDko", numOfColumns1)  ), 
                  sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                  colours2=c("week0_EEDheto"="red",  "week0_EEDko"="red4",  "week4_EEDheto"="blue",  "week4_EEDko"="blue4"),   
                  path2=subdir_7_part3,     fileName2="3E-three3-4Samples-curve",  
-                 title2="Up-regulated Genes (80%~100%)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
+                 title2="Up-regulated Genes (Highest)",      xLab2="Relative distance (kb)",   yLab2="H2BGFP signal",   
                  Ymin2=col_NOL_min-0.1,   Ymax2=col_NOL_max+0.1,    height2=3.2,   width2=5.65 , center2="TSS" )
-
-
-
-
-
-
 
 
 
@@ -1431,7 +1432,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[[1]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="1A-one1-BoxViolin",  
-                  title2="Down-regulated Genes (0%~20%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (Lowest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_1(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[[2]] ],  row_Average_one1_week0_EEDko[ row_Average_one1[[2]] ], 
@@ -1441,7 +1442,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[[2]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="1B-one1-BoxViolin",  
-                  title2="Down-regulated Genes (20%~40%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (Low)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_1(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[[3]] ],  row_Average_one1_week0_EEDko[ row_Average_one1[[3]] ], 
@@ -1451,7 +1452,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[[3]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="1C-one1-BoxViolin",  
-                  title2="Down-regulated Genes (40%~60%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (Medium)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1462,7 +1463,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[[4]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="1D-one1-BoxViolin",  
-                  title2="Down-regulated Genes (60%~80%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (High)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1473,7 +1474,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[[5]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="1E-one1-BoxViolin",  
-                  title2="Down-regulated Genes (80%~100%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes(Highest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1598,7 +1599,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[[1]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="2A-two2-BoxViolin",  
-                  title2="Down-regulated Genes (0%~20%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (Lowest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_1(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[[2]] ],  row_Average_two2_week0_EEDko[ row_Average_two2[[2]] ], 
@@ -1608,7 +1609,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[[2]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="2B-two2-BoxViolin",  
-                  title2="Down-regulated Genes (20%~40%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (Low)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_1(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[[3]] ],  row_Average_two2_week0_EEDko[ row_Average_two2[[3]] ], 
@@ -1618,7 +1619,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[[3]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="2C-two2-BoxViolin",  
-                  title2="Down-regulated Genes (40%~60%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (Medium)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1629,7 +1630,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[[4]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="2D-two2-BoxViolin",  
-                  title2="Down-regulated Genes (60%~80%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (High)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1640,7 +1641,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[[5]
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="2E-two2-BoxViolin",  
-                  title2="Down-regulated Genes (80%~100%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes(Highest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1765,7 +1766,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_three3
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="3A-three3-BoxViolin",  
-                  title2="Down-regulated Genes (0%~20%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (Lowest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_1(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_three3[[2]] ],  row_Average_three3_week0_EEDko[ row_Average_three3[[2]] ], 
@@ -1775,7 +1776,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_three3
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="3B-three3-BoxViolin",  
-                  title2="Down-regulated Genes (20%~40%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (Low)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_1(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_three3[[3]] ],  row_Average_three3_week0_EEDko[ row_Average_three3[[3]] ], 
@@ -1785,7 +1786,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_three3
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="3C-three3-BoxViolin",  
-                  title2="Down-regulated Genes (40%~60%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (Medium)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1796,7 +1797,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_three3
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="3D-three3-BoxViolin",  
-                  title2="Down-regulated Genes (60%~80%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes (High)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1807,7 +1808,7 @@ MyBoxViolinPlot_1(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_three3
                   sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                   colours2=c("red",  "red4",   "blue",    "blue4" ),   
                   path2=subdir_8_part3,  fileName2="3E-three3-BoxViolin",  
-                  title2="Down-regulated Genes (80%~100%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                  title2="Down-regulated Genes(Highest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                   height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1946,7 +1947,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="1A-one1-BoxViolin",  
-                     title2="Down-regulated Genes (0%~20%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (Lowest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_3_s4(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[[2]] ],  row_Average_one1_week0_EEDko[ row_Average_one1[[2]] ], 
@@ -1956,7 +1957,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="1B-one1-BoxViolin",  
-                     title2="Down-regulated Genes (20%~40%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (Low)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_3_s4(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[[3]] ],  row_Average_one1_week0_EEDko[ row_Average_one1[[3]] ], 
@@ -1966,7 +1967,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="1C-one1-BoxViolin",  
-                     title2="Down-regulated Genes (40%~60%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (Medium)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1977,7 +1978,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="1D-one1-BoxViolin",  
-                     title2="Down-regulated Genes (60%~80%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (High)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -1988,7 +1989,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_one1_week0_EEDheto[ row_Average_one1[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="1E-one1-BoxViolin",  
-                     title2="Down-regulated Genes (80%~100%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes(Highest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -2113,7 +2114,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="2A-two2-BoxViolin",  
-                     title2="Down-regulated Genes (0%~20%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (Lowest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_3_s4(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[[2]] ],  row_Average_two2_week0_EEDko[ row_Average_two2[[2]] ], 
@@ -2123,7 +2124,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="2B-two2-BoxViolin",  
-                     title2="Down-regulated Genes (20%~40%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (Low)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_3_s4(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[[3]] ],  row_Average_two2_week0_EEDko[ row_Average_two2[[3]] ], 
@@ -2133,7 +2134,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="2C-two2-BoxViolin",  
-                     title2="Down-regulated Genes (40%~60%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (Medium)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -2144,7 +2145,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="2D-two2-BoxViolin",  
-                     title2="Down-regulated Genes (60%~80%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (High)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -2155,7 +2156,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_two2_week0_EEDheto[ row_Average_two2[
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="2E-two2-BoxViolin",  
-                     title2="Down-regulated Genes (80%~100%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes(Highest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -2280,7 +2281,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_thr
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="3A-three3-BoxViolin",  
-                     title2="Down-regulated Genes (0%~20%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (Lowest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_3_s4(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_three3[[2]] ],  row_Average_three3_week0_EEDko[ row_Average_three3[[2]] ], 
@@ -2290,7 +2291,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_thr
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="3B-three3-BoxViolin",  
-                     title2="Down-regulated Genes (20%~40%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (Low)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 MyBoxViolinPlot_3_s4(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_three3[[3]] ],  row_Average_three3_week0_EEDko[ row_Average_three3[[3]] ], 
@@ -2300,7 +2301,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_thr
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="3C-three3-BoxViolin",  
-                     title2="Down-regulated Genes (40%~60%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (Medium)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -2311,7 +2312,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_thr
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="3D-three3-BoxViolin",  
-                     title2="Down-regulated Genes (60%~80%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes (High)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -2322,7 +2323,7 @@ MyBoxViolinPlot_3_s4(vector2=c(row_Average_three3_week0_EEDheto[ row_Average_thr
                      sampleRank2=c( "week0_EEDheto",   "week0_EEDko",  "week4_EEDheto",  "week4_EEDko" ),  
                      colours2=c("red",  "red4",   "blue",    "blue4" ),   
                      path2=subdir_9_part3,  fileName2="3E-three3-BoxViolin",  
-                     title2="Down-regulated Genes (80%~100%)",  xLab2="Samples",  yLab2="H2BGFP signal",   
+                     title2="Down-regulated Genes(Highest)",  xLab2="Samples",  yLab2="H2BGFP signal",   
                      height2=3.88,   width2=2.8, Ymin2=0, Ymax2=1.25 )
 
 
@@ -2420,6 +2421,26 @@ MyHypothesisTest_2(vector1=row_Average_three3_week0_EEDko[ row_Average_three3[[5
 MyHypothesisTest_2(vector1=row_Average_three3_week4_EEDheto[ row_Average_three3[[5]] ], vector2=row_Average_three3_week4_EEDko[ row_Average_three3[[5]] ], 
                    file1=paste(subdir_9_part3,  "/3E-row_three3_week4_EEDheto-VS-row_three3_week4_EEDheto.txt", sep = "")  
 )   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2552,26 +2573,26 @@ MySaveGgplot2_1(ggplot2Figure1=zp1_B,  path1=subdir_10_part3, fileName1="3B-thre
 
 
 ################## for one sample
-dim(reduceColumn_Average_one1_week0_EEDheto)
-length( reduceColumn_Average_one1_week0_EEDheto[reduceColumn_Average_one1_week0_EEDheto> -1] )
-length( reduceColumn_Average_one1_week0_EEDheto[reduceColumn_Average_one1_week0_EEDheto>1] )
-length( reduceColumn_Average_one1_week0_EEDheto[reduceColumn_Average_one1_week0_EEDheto<0.1] )
+dim(reduceColumn1_Average_one1_week0_EEDheto)
+length( reduceColumn1_Average_one1_week0_EEDheto[reduceColumn1_Average_one1_week0_EEDheto> -1] )
+length( reduceColumn1_Average_one1_week0_EEDheto[reduceColumn1_Average_one1_week0_EEDheto>1] )
+length( reduceColumn1_Average_one1_week0_EEDheto[reduceColumn1_Average_one1_week0_EEDheto<0.1] )
 
-reduceColumn_Average_one1_week0_EEDheto[reduceColumn_Average_one1_week0_EEDheto>1]  <- 1
-reduceColumn_Average_one1_week0_EEDheto[reduceColumn_Average_one1_week0_EEDheto<0.1]  <- 0.1
+reduceColumn1_Average_one1_week0_EEDheto[reduceColumn1_Average_one1_week0_EEDheto>1]  <- 1
+reduceColumn1_Average_one1_week0_EEDheto[reduceColumn1_Average_one1_week0_EEDheto<0.1]  <- 0.1
 
-reduceColumn_Average_one1_week0_EEDheto_min <- min(reduceColumn_Average_one1_week0_EEDheto)
-reduceColumn_Average_one1_week0_EEDheto_max <- max(reduceColumn_Average_one1_week0_EEDheto)
-reduceColumn_Average_one1_week0_EEDheto_ave <- (reduceColumn_Average_one1_week0_EEDheto_max + reduceColumn_Average_one1_week0_EEDheto)/2
+reduceColumn1_Average_one1_week0_EEDheto_min <- min(reduceColumn1_Average_one1_week0_EEDheto)
+reduceColumn1_Average_one1_week0_EEDheto_max <- max(reduceColumn1_Average_one1_week0_EEDheto)
+reduceColumn1_Average_one1_week0_EEDheto_ave <- (reduceColumn1_Average_one1_week0_EEDheto_max + reduceColumn1_Average_one1_week0_EEDheto)/2
 
-zp1_A <- ggplot( melt(reduceColumn_Average_one1_week0_EEDheto), aes(x = as.numeric(Var2), y = as.numeric(Var1), fill = value) )   ## as.numeric  or  as.factor
+zp1_A <- ggplot( melt(reduceColumn1_Average_one1_week0_EEDheto), aes(x = as.numeric(Var2), y = as.numeric(Var1), fill = value) )   ## as.numeric  or  as.factor
 zp1_A <- zp1_A + geom_tile()  + xlab("Relative distance (kb)") + ylab("Samples") +  ggtitle("Down-regulated Genes") 
 zp1_A <- zp1_A + scale_fill_gradient2( low = "blue", mid = "white", high = "red", midpoint =column_heatmap_three3_ave,  limits=c(column_heatmap_three3_min, column_heatmap_three3_max) ) 
 zp1_A <- zp1_A + scale_y_continuous(expand = c(0, 0))  + scale_x_continuous(  expand = c(0, 0)  )     ## discrete  or  continuous  
 zp1_A <- zp1_A +   MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL )
 MySaveGgplot2_1(ggplot2Figure1=zp1_A,  path1=subdir_10_part3, fileName1="10A-one1_week0_EEDheto",  height1=3, width1=6)
 
-zp1_B <- ggplot( melt(reduceColumn_Average_one1_week0_EEDheto), aes(x = as.numeric(Var2), y = as.numeric(Var1), fill = value) )   ## as.numeric  or  as.factor
+zp1_B <- ggplot( melt(reduceColumn1_Average_one1_week0_EEDheto), aes(x = as.numeric(Var2), y = as.numeric(Var1), fill = value) )   ## as.numeric  or  as.factor
 zp1_B <- zp1_B + geom_tile()  + xlab("Relative distance (kb)") + ylab("Samples") +  ggtitle("Down-regulated Genes")
 zp1_B <- zp1_B + scale_fill_gradient2( low = "yellow", mid = "yellowgreen", high = "green", midpoint =column_heatmap_three3_ave,  limits=c(column_heatmap_three3_min, column_heatmap_three3_max) ) 
 zp1_B <- zp1_B + scale_y_continuous(expand = c(0, 0))  + scale_x_continuous( expand = c(0, 0)  )     ## discrete  or  continuous  
@@ -2580,6 +2601,61 @@ MySaveGgplot2_1(ggplot2Figure1=zp1_B,  path1=subdir_10_part3, fileName1="10B-one
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################################################################
+subdir_11_part3 <- paste(Part3_g,  "/11-QQplot", sep = "")
+if( ! file.exists(subdir_11_part3) ) { dir.create(subdir_11_part3) }
+
+
+row_one1_week0_EEDheto_mod.lm.log <- lm(log(row_one1_week0_EEDheto_rep1) ~ log(row_one1_week0_EEDheto_rep2))
+row_one1_week0_EEDheto_logx <- rstudent(row_one1_week0_EEDheto_mod.lm.log)
+MyQQplot_ggplot2_3(row_one1_week0_EEDheto_logx,  path2=subdir_11_part3,  fileName2="1-QQplot-row_one1_week0_EEDheto_logx",  
+                   title2="Quantile-Quantile Plot",  xLab2="row_one1_week0_EEDheto_rep1",  yLab2="row_one1_week0_EEDheto_rep2",   
+                   Ymin2=-4,   Ymax2=5,   height2=3,  width2=4,  conf2=0.95,   dis2 = "norm" )
+
+
+row_one1_week0_EEDheto_mod.lm <- lm(row_one1_week0_EEDheto_rep1 ~ row_one1_week0_EEDheto_rep2)
+row_one1_week0_EEDheto_x <- rstudent(row_one1_week0_EEDheto_mod.lm)
+MyQQplot_ggplot2_3(row_one1_week0_EEDheto_x,  path2=subdir_11_part3,  fileName2="1-QQplot-row_one1_week0_EEDheto_x",  
+                   title2="Quantile-Quantile Plot",  xLab2="row_one1_week0_EEDheto_rep1",  yLab2="row_one1_week0_EEDheto_rep2",   
+                   Ymin2=-4,   Ymax2=5,   height2=3,  width2=4,  conf2=0.95,   dis2 = "norm" )
+
+
+
+
+
+
+
+
+
+row_one1_H3_week0EEDheto.lm.log <- lm( row_Average_three3_H3_normal ~ row_Average_three3_week0_EEDheto )
+row_one1_H3_week0EEDheto_logx <- rstudent(row_one1_H3_week0EEDheto.lm.log)
+MyQQplot_ggplot2_3(row_one1_H3_week0EEDheto_logx,  path2=subdir_11_part3,  fileName2="1-QQplot-row_H3_week0EEDheto_logx",  
+                   title2="Quantile-Quantile Plot",  xLab2="H3",  yLab2="week0_EEDheto",   
+                   Ymin2=-4,   Ymax2=5,   height2=3,  width2=4,  conf2=0.95,   dis2 = "norm" )
+
+
+
+
+
+row_one1_week0EEDhetoVSko_lm <- lm(row_Average_three3_week0_EEDheto ~ row_Average_three3_week0_EEDko)
+row_one1_week0EEDhetoVSko_lm_x <- rstudent(row_one1_week0EEDhetoVSko_lm)
+MyQQplot_ggplot2_3(row_one1_week0EEDhetoVSko_lm_x,  path2=subdir_11_part3,  fileName2="5-QQplot-row_one1_week0EEDhetoVSko_lm_x",  
+                   title2="Quantile-Quantile Plot",  xLab2="week0_EEDheto",  yLab2="week0_EEDko",   
+                   Ymin2=-5,   Ymax2=5,   height2=3,  width2=4,  conf2=0.95,   dis2 = "norm" )
 
 
 
