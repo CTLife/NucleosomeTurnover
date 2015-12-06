@@ -1,17 +1,17 @@
 #############################################################################################################################
-## There are ten parts for analysis the DANPOS2.2.2 processsed results of nucleosome turnover ChIP-seq data:
-## Part 1:  Load R libraries and define some functions.
-## Part 2:  Reads in the data (Read in the input matrix data), and reduce the dimension (rows or columns) of matrix, 
-##          and statistics the information of input files.
-## Part 3:  Figures about nucleosome occupancy level (NOL).
-## Part 4:  Figures about nucleosome turnover rate (NTR). Correlations between NOL and NTR.
-## Part 5:  Same NOL DNA regions, but their NTRs are different.
-## Part 6:  Same NTR DNA regions, but their NOLs are different.
-## Part 7:  Figures about nucleosome contribution value (NCV).  3D-graph: x=NOL, y=NTR, z=biological function. (based on data)
-##          NCV=f(NOL, NTR)=b1/[1+(NOL/k1)^n1] + b2/[1+(k2/NTR)^n2]   (based on Modelling)
-## Part 8:  Figures about a smaller matrix, so we can compute NTR at a single DNA region.
-## Part 9:  NOL, NTR, NCV and Biological Functions. (3 indexes and biological functions)
-## Part 10: Other analysis.
+## There are ten parts for analysis the DANPOS2.2.2 processed results of nucleosome turnover ChIP-seq data:
+## Part  1:  Load R libraries and define some functions.
+## Part  2:  Read in the input matrix data, and reduce the dimensions (rows or columns) of matrix, and save the information of input files.
+## Part  3:  Figures about nucleosome occupancy level (NOL).
+## Part  4:  Figures about nucleosome turnover rate (NTR). Compute the correlation between NOL and NTR.
+## Part  5:  Classify DNA regions based on NOL.
+## Part  6:  Classify DNA regions based on NTR.
+## Part  7:  Figures about nucleosome contribution value (NCV).  
+##                   3D-graph: x=NOL, y=NTR, z=biological function.            (based on Data)
+##                   NCV=f(NOL, NTR)=b1/[1+(NOL/k1)^n1] + b2/[1+(k2/NTR)^n2]   (based on Model)
+## Part  8:  Figures about a smaller matrix, so we can compute NTR at a single DNA region.
+## Part  9:  NOL, NTR, NCV and Biological Functions. (3 indexes and biological functions)
+## Part 10:  Other analysis.
 #############################################################################################################################
 
 
@@ -19,19 +19,19 @@
 
 
 ###########################################
-## Part 1:  Load R libraries and define some functions.
+## Part  1:  Load R libraries and define some functions.
 ###########################################
 
 
-AllResults_g <- "Z-2EEDKO-TSS"
+AllResults_g <- "Z-TSS-2EEDKO"
 if( ! file.exists(AllResults_g) ) { dir.create(AllResults_g) }
 
 Part1_g   <- paste(AllResults_g,  "/Part1-Functions",      sep = "")
 Part2_g   <- paste(AllResults_g,  "/Part2-ReadData",       sep = "")
 Part3_g   <- paste(AllResults_g,  "/Part3-NOL",            sep = "")
 Part4_g   <- paste(AllResults_g,  "/Part4-NTR",            sep = "")
-Part5_g   <- paste(AllResults_g,  "/Part5-sameNOL-NTR",    sep = "")
-Part6_g   <- paste(AllResults_g,  "/Part6-sameNTR-NOL",    sep = "")
+Part5_g   <- paste(AllResults_g,  "/Part5-byNOL",          sep = "")
+Part6_g   <- paste(AllResults_g,  "/Part6-byNTR",          sep = "")
 Part7_g   <- paste(AllResults_g,  "/Part7-NCV",            sep = "")
 Part8_g   <- paste(AllResults_g,  "/Part8-SmallMatrix",    sep = "")
 Part9_g   <- paste(AllResults_g,  "/Part9-3index-BioFun",  sep = "")
@@ -59,6 +59,8 @@ library("KernSmooth")
 library("psych")
 library("minerva")
 library("matrixStats")
+library("coin")
+ 
 
 library("extrafont")
 font_import()
@@ -79,20 +81,20 @@ MyTheme_1 <- function(textSize1=14, hjust1=NULL, vjust1=NULL,  angle1=NULL) {   
                 text  = element_text(family="serif",  face=NULL,  colour="black",  size=textSize1, hjust=NULL, vjust=NULL,   angle=NULL, lineheight=NULL),     ## all text elements.           "serif" for a serif font. 所有文本相关属性.
                 title = element_text(family="serif",  face=NULL,  colour="black",  size=textSize1, hjust=NULL, vjust=NULL,   angle=NULL, lineheight=NULL),     ## all title elements: plot, axes, legends.    hjust:水平对齐的方向.  所有标题属性.
     
-                axis.title        = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=NULL,   angle=NULL,   lineheight=NULL),       ## label of axes (element_text; inherits from text).  horizontal: 水平的, 水平线 
-                axis.title.x      = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=-0.5,   angle=NULL,   lineheight=NULL),       ## x axis label (element_text; inherits from axis.title)
-                axis.title.y      = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=1.5,    angle=NULL,   lineheight=NULL),       ## y axis label (element_text; inherits from axis.title)
-                axis.text         = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=NULL,   angle=NULL,   lineheight=NULL),       ## tick labels along axes (element_text; inherits from text). 坐标轴刻度的标签的属性.                                                         
-                axis.text.x       = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=hjust1, vjust=vjust1, angle=angle1, lineheight=angle1),     ## x axis tick labels (element_text; inherits from axis.text)
-                axis.text.y       = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=NULL,   angle=NULL,   lineheight=NULL),       ## y axis tick labels (element_text; inherits from axis.text)
-                axis.ticks        = element_line(colour="black", size=0.5, linetype=1, lineend=NULL),                                                                            ## tick marks along axes (element_line; inherits from line). 坐标轴刻度线.
-                axis.ticks.x      = element_line(colour="black", size=0.5, linetype=1, lineend=NULL),                                                                            ## x axis tick marks (element_line; inherits from axis.ticks)
-                axis.ticks.y      = element_line(colour="black", size=0.5, linetype=1, lineend=NULL),                                                                            ## y axis tick marks (element_line; inherits from axis.ticks)
-                axis.ticks.length = grid::unit(2.0,   "mm",   data=NULL),                                                                                                        ## length of tick marks (unit), ‘"mm"’ Millimetres.  10 mm = 1 cm.  刻度线长度
-                axis.ticks.margin = grid::unit(1.0,   "mm",   data=NULL),  	                                                                                                 ## space between tick mark and tick label (unit),  ‘"mm"’ Millimetres.  10 mm = 1 cm. 刻度线和刻度标签之间的间距.                                                                           
-                axis.line         = element_line(colour="transparent", size=0.3, linetype=1, lineend=NULL), 	                                                                 ## lines along axes (element_line; inherits from line). 坐标轴线
-                axis.line.x       = element_line(colour="transparent", size=0.3, linetype=1, lineend=NULL), 	                                                                 ## line along x axis (element_line; inherits from axis.line)
-                axis.line.y       = element_line(colour="transparent", size=0.3, linetype=1, lineend=NULL),	                                                                 ## line along y axis (element_line; inherits from axis.line)
+                axis.title        = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=NULL,   angle=NULL,   lineheight=NULL  ),       ## label of axes (element_text; inherits from text).  horizontal: 水平的, 水平线 
+                axis.title.x      = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=-0.5,   angle=NULL,   lineheight=NULL  ),       ## x axis label (element_text; inherits from axis.title)
+                axis.title.y      = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=1.5,    angle=NULL,   lineheight=NULL  ),       ## y axis label (element_text; inherits from axis.title)
+                axis.text         = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=NULL,   angle=NULL,   lineheight=NULL  ),       ## tick labels along axes (element_text; inherits from text). 坐标轴刻度的标签的属性.                                                         
+                axis.text.x       = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=hjust1, vjust=vjust1, angle=angle1, lineheight=angle1),       ## x axis tick labels (element_text; inherits from axis.text)
+                axis.text.y       = element_text(family="serif", face=NULL, colour="black", size=textSize1,    hjust=NULL,   vjust=NULL,   angle=NULL,   lineheight=NULL  ),       ## y axis tick labels (element_text; inherits from axis.text)
+                axis.ticks        = element_line(colour="black", size=0.5, linetype=1, lineend=NULL),                                                                              ## tick marks along axes (element_line; inherits from line). 坐标轴刻度线.
+                axis.ticks.x      = element_line(colour="black", size=0.5, linetype=1, lineend=NULL),                                                                              ## x axis tick marks (element_line; inherits from axis.ticks)
+                axis.ticks.y      = element_line(colour="black", size=0.5, linetype=1, lineend=NULL),                                                                              ## y axis tick marks (element_line; inherits from axis.ticks)
+                axis.ticks.length = grid::unit(2.0,   "mm",   data=NULL),                                                                                                          ## length of tick marks (unit), ‘"mm"’ Millimetres.  10 mm = 1 cm.  刻度线长度
+                axis.ticks.margin = grid::unit(1.0,   "mm",   data=NULL),  	                                                                                                   ## space between tick mark and tick label (unit),  ‘"mm"’ Millimetres.  10 mm = 1 cm. 刻度线和刻度标签之间的间距.                                                                           
+                axis.line         = element_line(colour="transparent", size=0.3, linetype=1, lineend=NULL), 	                                                                   ## lines along axes (element_line; inherits from line). 坐标轴线
+                axis.line.x       = element_line(colour="transparent", size=0.3, linetype=1, lineend=NULL), 	                                                                   ## line along x axis (element_line; inherits from axis.line)
+                axis.line.y       = element_line(colour="transparent", size=0.3, linetype=1, lineend=NULL),	                                                                   ## line along y axis (element_line; inherits from axis.line)
     
                 legend.background    = element_rect(colour="transparent", size=1, linetype=1, fill="transparent" ), 	      ## background of legend (element_rect; inherits from rect)
                 legend.margin        = grid::unit(1, "mm", data=NULL), 	                                                      ## extra space added around legend (unit). linetype=1指的是矩形边框的类型.
@@ -194,15 +196,15 @@ MyAverageLines_1 <- function(vector2,  numSample2,  sampleType2, sampleRank2,   
         DataFrame_Local  <-  data.frame( xAxis = c( rep(Position_Local, numSample2) ),      yAxis = vector2,    SampleType = sampleType2 ) 
   
         FigureTemp1 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  +  xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + 
-                scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5,   5  ), labels=c("-5",  "-2.5", center2,  "2.5",  "5") ) +  
-                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
-        MySaveGgplot2_1(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=fileName2,                                             height1=height2, width1=width2)
+                        scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
+                        scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5,   5  ), labels=c("-5",  "-2.5", center2,  "2.5",  "5") ) +  
+                        MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
+        MySaveGgplot2_1(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=fileName2,  height1=height2, width1=width2)
         
         FigureTemp2 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  + xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + ylim(Ymin2, Ymax2 ) +
-                scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5,   5  ), labels=c("-5",  "-2.5",  center2,  "2.5",  "5") ) +  
-                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
+                        scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
+                        scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5,   5  ), labels=c("-5",  "-2.5",  center2,  "2.5",  "5") ) +  
+                        MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-limitY",  sep="",  collapse=NULL),  height1=height2, width1=width2)
 }  
 
@@ -222,15 +224,15 @@ MyAverageLines_2 <- function(vector2,  SEM2, numSample2,  sampleType2, sampleRan
         Limits_Local     <- aes( ymax = yAxis+Error,  ymin = yAxis-Error )
   
         FigureTemp1 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  +  xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + 
-                scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5,   5  ), labels=c("-5",  "-2.5", center2,  "2.5",  "5") ) +  geom_errorbar(Limits_Local,   width=0.03) + 
-                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
+                        scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
+                        scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5,   5  ), labels=c("-5",  "-2.5", center2,  "2.5",  "5") ) +  geom_errorbar(Limits_Local,   width=0.03) + 
+                        MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=fileName2,                                             height1=height2, width1=width2)
         
         FigureTemp2 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  + xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + ylim(Ymin2, Ymax2 ) +
-                scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5,   5  ), labels=c("-5",  "-2.5",  center2,  "2.5",  "5") ) +  geom_errorbar(Limits_Local,   width=0.03) + 
-                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
+                        scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
+                        scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5,   5  ), labels=c("-5",  "-2.5",  center2,  "2.5",  "5") ) +  geom_errorbar(Limits_Local,   width=0.03) + 
+                        MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-limitY",  sep="",  collapse=NULL),  height1=height2, width1=width2)
 }  
 
@@ -247,15 +249,15 @@ MyAverageLines_3 <- function(vector2,  numSample2,  sampleType2, sampleRank2,   
         DataFrame_Local  <-  data.frame( xAxis = c( rep(Position_Local, numSample2) ),      yAxis = vector2,    SampleType = sampleType2 ) 
   
         FigureTemp1 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  +  xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + 
-                scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-3,  -2, -1, 0,  1, 2,   3  ), labels=c("-3",  "-2", "-1", center2, "1", "2",  "3") ) +  
-                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
+                        scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
+                        scale_x_continuous( breaks=c(-3,  -2, -1, 0,  1, 2,   3  ), labels=c("-3",  "-2", "-1", center2, "1", "2",  "3") ) +  
+                        MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=fileName2,                                             height1=height2, width1=width2)
         
         FigureTemp2 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  + xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + ylim(Ymin2, Ymax2 ) +
-                scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-3,  -2, -1, 0,  1, 2,   3  ), labels=c("-3",  "-2", "-1", center2, "1", "2",  "3") ) +  
-                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
+                        scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
+                        scale_x_continuous( breaks=c(-3,  -2, -1, 0,  1, 2,   3  ), labels=c("-3",  "-2", "-1", center2, "1", "2",  "3") ) +  
+                        MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-limitY",  sep="",  collapse=NULL),  height1=height2, width1=width2)
 }  
 
@@ -263,7 +265,7 @@ MyAverageLines_3 <- function(vector2,  numSample2,  sampleType2, sampleRank2,   
 
 
 
-
+## with error-bar:
 MyAverageLines_4 <- function(vector2,  SEM2, numSample2,  sampleType2, sampleRank2,   colours2,  path2,  fileName2,  title2,  xLab2,  yLab2,   Ymin2=0,   Ymax2=10,   height2=3, width2=4, center2="0") {  
         binLen <- 10    ## Bin size is 10 bp
         binNum <- 600   ## 600 * 10 = 6000 bp
@@ -272,15 +274,15 @@ MyAverageLines_4 <- function(vector2,  SEM2, numSample2,  sampleType2, sampleRan
         Limits_Local     <- aes( ymax = yAxis+Error,  ymin = yAxis-Error )
   
         FigureTemp1 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  +  xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + 
-                scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-3,  -2, -1, 0,  1, 2,   3  ), labels=c("-3",  "-2", "-1", center2, "1", "2",  "3") ) +  geom_errorbar(Limits_Local,   width=0.03) + 
-                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
+                        scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
+                        scale_x_continuous( breaks=c(-3,  -2, -1, 0,  1, 2,   3  ), labels=c("-3",  "-2", "-1", center2, "1", "2",  "3") ) +  geom_errorbar(Limits_Local,   width=0.03) + 
+                        MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=fileName2,                                             height1=height2, width1=width2)
         
         FigureTemp2 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  + xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + ylim(Ymin2, Ymax2 ) +
-                scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-3,  -2, -1, 0,  1, 2,   3  ), labels=c("-3",  "-2", "-1", center2, "1", "2",  "3") ) +  geom_errorbar(Limits_Local,   width=0.03) + 
-                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
+                        scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
+                        scale_x_continuous( breaks=c(-3,  -2, -1, 0,  1, 2,   3  ), labels=c("-3",  "-2", "-1", center2, "1", "2",  "3") ) +  geom_errorbar(Limits_Local,   width=0.03) + 
+                        MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-limitY",  sep="",  collapse=NULL),  height1=height2, width1=width2)
 }  
 
@@ -293,22 +295,22 @@ MyAverageLines_4 <- function(vector2,  SEM2, numSample2,  sampleType2, sampleRan
 
 
 
-## for regions, such as gene bodies: 5kb, 10kb, 5kb
+## for regions, such as gene bodies: 5kb, 15kb, 5kb
 MyAverageLines_5 <- function(vector2,  numSample2,  sampleType2, sampleRank2,   colours2,  path2,  fileName2,  title2,  xLab2,  yLab2,   Ymin2=0,   Ymax2=10,   height2=3, width2=4 ) {  
         binLen <- 10    ## Bin size is 10 bp
-        binNum <-2000   ## 2000 * 10 = 20000 bp
+        binNum <-2500   ## 2500 * 10 = 25000 bp
         Position_Local   <-  seq(from = -5,  by=0.01,  length.out=binNum)   ## unit is kb
         DataFrame_Local  <-  data.frame( xAxis = c( rep(Position_Local, numSample2) ),      yAxis = vector2,    SampleType = sampleType2 ) 
         
         FigureTemp1 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  +  xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + 
                 scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5, 5, 7.5, 10, 12.5, 15 ), labels=c("-5",  "-2.5", "TSS", "25%",  "50%",  "75%",  "TTS",   "2.5", "5" ) ) +  
+                scale_x_continuous( breaks=c(-5,  -2.5,  0,  3.75, 7.5, 11.25, 15, 17.5, 20 ), labels=c("-5",  "-2.5", "TSS", "25%",  "50%",  "75%",  "TTS",   "2.5", "5" ) ) +  
                 MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=fileName2,                                             height1=height2, width1=width2)
         
         FigureTemp2 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  + xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + ylim(Ymin2, Ymax2 ) +
                 scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5, 5, 7.5, 10, 12.5, 15 ), labels=c("-5",  "-2.5", "TSS", "25%",  "50%",  "75%",  "TTS",   "2.5", "5" ) ) +   
+                scale_x_continuous( breaks=c(-5,  -2.5,  0,  3.75, 7.5, 11.25, 15, 17.5, 20 ), labels=c("-5",  "-2.5", "TSS", "25%",  "50%",  "75%",  "TTS",   "2.5", "5" ) ) +    
                 MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-limitY",  sep="",  collapse=NULL),  height1=height2, width1=width2)
 }  
@@ -317,23 +319,24 @@ MyAverageLines_5 <- function(vector2,  numSample2,  sampleType2, sampleRank2,   
 
 
 
-## for regions, such as gene bodies: 5kb, 10kb, 5kb
+## for regions, such as gene bodies: 5kb, 15kb, 5kb
+## with error-bar:
 MyAverageLines_6 <- function(vector2,  SEM2, numSample2,  sampleType2, sampleRank2,   colours2,  path2,  fileName2,  title2,  xLab2,  yLab2,   Ymin2=0,   Ymax2=10,   height2=3, width2=4 ) {  
         binLen <- 10    ## Bin size is 10 bp
-        binNum <-2000   ## 2000 * 10 = 20000 bp
+        binNum <-2500   ## 2500 * 10 = 25000 bp
         Position_Local   <-  seq(from = -5,  by=0.01,  length.out=binNum)   ## unit is kb
         DataFrame_Local  <-  data.frame( xAxis = c( rep(Position_Local, numSample2) ),      yAxis = vector2,    SampleType = sampleType2,  Error = SEM2 ) 
         Limits_Local     <- aes( ymax = yAxis+Error,  ymin = yAxis-Error )
         
         FigureTemp1 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  +  xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + 
                 scale_colour_manual( values=colours2, breaks=sampleRank2  ) + geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5, 5, 7.5, 10, 12.5, 15 ), labels=c("-5",  "-2.5", "TSS", "25%",  "50%",  "75%",  "TTS",   "2.5", "5" ) ) +    geom_errorbar(Limits_Local,   width=0.03) + 
+                scale_x_continuous( breaks=c(-5,  -2.5,  0,  3.75, 7.5, 11.25, 15, 17.5, 20 ), labels=c("-5",  "-2.5", "TSS", "25%",  "50%",  "75%",  "TTS",   "2.5", "5" ) )  +    geom_errorbar(Limits_Local,   width=0.03) + 
                 MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=fileName2,                                             height1=height2, width1=width2)
         
         FigureTemp2 <- ggplot(DataFrame_Local,   aes(x=xAxis, y=yAxis,  color=SampleType) )  + xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + ylim(Ymin2, Ymax2 ) +
                 scale_colour_manual( values=colours2, breaks=sampleRank2  ) +  geom_line(size=0.5) +  geom_vline(xintercept=0, lty=2, col="gray45", size=0.5) +   
-                scale_x_continuous( breaks=c(-5,  -2.5,  0,  2.5, 5, 7.5, 10, 12.5, 15 ), labels=c("-5",  "-2.5", "TSS", "25%",  "50%",  "75%",  "TTS",   "2.5", "5" ) ) +   geom_errorbar(Limits_Local,   width=0.03) + 
+                scale_x_continuous( breaks=c(-5,  -2.5,  0,  3.75, 7.5, 11.25, 15, 17.5, 20 ), labels=c("-5",  "-2.5", "TSS", "25%",  "50%",  "75%",  "TTS",   "2.5", "5" ) ) +    geom_errorbar(Limits_Local,   width=0.03) + 
                 MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL ) +  guides( colour = guide_legend(override.aes = list(size=1.5)) )  
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-limitY",  sep="",  collapse=NULL),  height1=height2, width1=width2) 
 }
@@ -370,6 +373,7 @@ MyAverageLines_7 <- function(vector2,  numSample2,  sampleType2, sampleRank2,   
 
 
 ## for regions, such as gene bodies: 5kb, 10kb, 5kb
+## with error-bar:
 MyAverageLines_8 <- function(vector2,  SEM2, numSample2,  sampleType2, sampleRank2,   colours2,  path2,  fileName2,  title2,  xLab2,  yLab2,   Ymin2=0,   Ymax2=10,   height2=3, width2=4 ) {  
         binLen <- 10    ## Bin size is 10 bp
         binNum <- 1200   ## 2000 * 10 = 20000 bp
@@ -1027,7 +1031,6 @@ MyBoxViolinPlot_3_s7 <- function(vector2,  sampleType2, sampleRank2,   colours2,
 }  
 
 
-
 ## Add path for 6 samples
 MyBoxViolinPlot_3_s6 <- function(vector2,  sampleType2, sampleRank2,   colours2,   path2,   fileName2,    title2,  xLab2,  yLab2,    height2=4,   width2=4,  Ymin2=0,  Ymax2=3) { 
         vector2[vector2>Ymax2] <- Ymax2
@@ -1106,7 +1109,6 @@ MyBoxViolinPlot_3_s6 <- function(vector2,  sampleType2, sampleRank2,   colours2,
 }  
 
 
-
 ## Add path for 5 samples
 MyBoxViolinPlot_3_s5 <- function(vector2,  sampleType2, sampleRank2,   colours2,   path2,   fileName2,    title2,  xLab2,  yLab2,    height2=4,   width2=4,  Ymin2=0,  Ymax2=3) { 
         vector2[vector2>Ymax2] <- Ymax2
@@ -1179,7 +1181,6 @@ MyBoxViolinPlot_3_s5 <- function(vector2,  sampleType2, sampleRank2,   colours2,
 }  
 
 
-
 ## Add path for 4 samples
 MyBoxViolinPlot_3_s4 <- function(vector2,  sampleType2, sampleRank2,   colours2,   path2,   fileName2,    title2,  xLab2,  yLab2,    height2=4,   width2=4,  Ymin2=0,  Ymax2=3) { 
         vector2[vector2>Ymax2] <- Ymax2
@@ -1246,7 +1247,6 @@ MyBoxViolinPlot_3_s4 <- function(vector2,  sampleType2, sampleRank2,   colours2,
 }  
 
 
-
 ## Add path for 3 samples
 MyBoxViolinPlot_3_s3 <- function(vector2,  sampleType2, sampleRank2,   colours2,   path2,   fileName2,    title2,  xLab2,  yLab2,    height2=4,   width2=4,  Ymin2=0,  Ymax2=3) { 
         vector2[vector2>Ymax2] <- Ymax2
@@ -1305,7 +1305,6 @@ MyBoxViolinPlot_3_s3 <- function(vector2,  sampleType2, sampleRank2,   colours2,
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp4,  path1=path2, fileName1=paste(fileName2, "-path-ViolinPlot-noAdjust-colour",  sep="",  collapse=NULL),  height1=height2, width1=width2)
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp5,  path1=path2, fileName1=paste(fileName2, "-path-ViolinPlot-3Adjust-colour",   sep="",  collapse=NULL),  height1=height2, width1=width2)
 }  
-
 
 
 ## Add path for 2 samples
@@ -1415,47 +1414,46 @@ MyComputeNCV_1 <- function(x1, x2,  b1, b2,  k1, k2,  n1, n2) {  ## x1 is NOL, x
 
 
 
-
-
 MyCor2Vars_1 <- function(vector1, vector2, file1) {
-        dataFrame <- data.frame(var1 <- vector1,   var2 <- vector2)
+        vector1[is.na(vector1)] <- 0
+        vector2[is.na(vector2)] <- 0
+        dataFrame <- data.frame(var1= vector1,   var2 = vector2)
         sink(file=file1)
   
         print("Pearson product-moment correlation coefficient (pairwise) :")
-        print( corr.test(x=dataFrame, y = dataFrame,   use = "pairwise", method="pearson",  adjust="holm", alpha=.05, ci=TRUE) ) ## pearson, spearman, kendall
+        print( corr.test(x=dataFrame, y = dataFrame,   use = "pairwise", method="pearson",  adjust="holm", alpha=.05, ci=TRUE), short=FALSE ) ## pearson, spearman, kendall
         cat("\n\n\n\n\n")  
   
         print("Pearson product-moment correlation coefficient (complete) :")
-        print( corr.test(x=dataFrame, y = dataFrame,   use = "complete", method="pearson",  adjust="holm", alpha=.05, ci=TRUE) ) ## pearson, spearman, kendall
+        print( corr.test(x=dataFrame, y = dataFrame,   use = "complete", method="pearson",  adjust="holm", alpha=.05, ci=TRUE), short=FALSE ) ## pearson, spearman, kendall
         cat("\n\n\n\n\n")  
   
         print("Spearman's rank correlation coefficient or Spearman's rho (pairwise) :")
-        print( corr.test(x=dataFrame, y = dataFrame,   use = "pairwise", method="spearman", adjust="holm", alpha=.05, ci=TRUE) )  ## pearson, spearman, kendall
+        print( corr.test(x=dataFrame, y = dataFrame,   use = "pairwise", method="spearman", adjust="holm", alpha=.05, ci=TRUE), short=FALSE )  ## pearson, spearman, kendall
         cat("\n\n\n\n\n")
   
         print("Spearman's rank correlation coefficient or Spearman's rho (complete) ::")
-        print( corr.test(x=dataFrame, y = dataFrame,   use = "complete", method="spearman", adjust="holm", alpha=.05, ci=TRUE) )  ## pearson, spearman, kendall
+        print( corr.test(x=dataFrame, y = dataFrame,   use = "complete", method="spearman", adjust="holm", alpha=.05, ci=TRUE), short=FALSE )  ## pearson, spearman, kendall
         cat("\n\n\n\n\n")
   
         print("Kendall rank correlation coefficient, commonly referred to as Kendall's tau (τ) coefficient (pairwise) :")
-        print( corr.test(x=dataFrame, y = dataFrame,   use = "pairwise", method="kendall",  adjust="holm", alpha=.05, ci=TRUE) ) ## pearson, spearman, kendall
+        print( corr.test(x=dataFrame, y = dataFrame,   use = "pairwise", method="kendall",  adjust="holm", alpha=.05, ci=TRUE), short=FALSE ) ## pearson, spearman, kendall
         cat("\n\n\n\n\n")
   
         print("Kendall rank correlation coefficient, commonly referred to as Kendall's tau (τ) coefficient (complete) :")
-        print( corr.test(x=dataFrame, y = dataFrame,   use = "complete", method="kendall",  adjust="holm", alpha=.05, ci=TRUE) ) ## pearson, spearman, kendall
+        print( corr.test(x=dataFrame, y = dataFrame,   use = "complete", method="kendall",  adjust="holm", alpha=.05, ci=TRUE), short=FALSE ) ## pearson, spearman, kendall
         cat("\n\n\n\n\n")
 
         print("maximal information coefficient (MIC) in maximal information-based nonparametric exploration (MINE) statistics (alpha=0.6, default):")
-        mine(x=vector1, y = vector2,   master=NULL,  alpha=0.6,  C=15,  n.cores=16,  var.thr=1e-5,  eps=NULL)
+        print( mine(x=vector1, y = vector2,   master=NULL,  alpha=0.6,  C=15,  n.cores=16,  var.thr=1e-5,  eps=NULL) )
         cat("\n\n\n\n\n")
   
         print("maximal information coefficient (MIC) in maximal information-based nonparametric exploration (MINE) statistics (alpha=1.0):")
-        mine(x=vector1, y = vector2,   master=NULL,  alpha=1.0,  C=15,  n.cores=16,  var.thr=1e-5,  eps=NULL)
+        print( mine(x=vector1, y = vector2,   master=NULL,  alpha=1.0,  C=15,  n.cores=16,  var.thr=1e-5,  eps=NULL) )
         cat("\n\n\n\n\n")
   
         sink()  
 }
-
 
 
 
@@ -1554,9 +1552,6 @@ MyHypothesisTest_1 <- function(vector1, vector2, file1) {
 
 
 
-
-
-
 ## T test and Wilcoxon test  (paired)
 MyHypothesisTest_2 <- function(vector1, vector2, file1) {
         sink(file=file1)
@@ -1636,8 +1631,6 @@ MyHypothesisTest_2 <- function(vector1, vector2, file1) {
 
 
 
-
-
 MyHypothesisTest_3 <- function(vector1,  peakPosition_Local,  file2) {
         Length1<- length(peakPosition_Local)
         up1    <- vector1[ c( (peakPosition_Local[1]-Length1) : (peakPosition_Local[1]-1) ) ]
@@ -1659,7 +1652,7 @@ MyHypothesisTest_3 <- function(vector1,  peakPosition_Local,  file2) {
 
 
 
-## scatter Diagram
+## scatter Diagra for 1 sample
 MyScatterDiagram_1 <- function(vector2,  path2,   fileName2,  xScale2=0.001,  xLab2="peaks (x1000)",   yLab2,  title2,  height2=4,  width2=4,  yMin2=0, yMax2=2,  alpha2=0.5) {
         vector2[vector2>yMax2] <- yMax2
         vector2[vector2<yMin2] <- yMin2
@@ -1667,16 +1660,43 @@ MyScatterDiagram_1 <- function(vector2,  path2,   fileName2,  xScale2=0.001,  xL
 
         FigureTemp1 <- ggplot( data = dataframeA, aes(x = xAxis, y = yAxis) ) + 
                 geom_point(size=0.1, colour="grey45", alpha=alpha2, fill="grey45", shape=20 ) +  
-                ylim(yMin2, yMax2) +  xlab(xLab2) +   ylab(yLab2) +   ggtitle(title2) + 
+                ylim(yMin2, yMax2)  + xlab(xLab2) +   ylab(yLab2) +   ggtitle(title2) + 
                 MyTheme_1( textSize=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL)
         MySaveGgplot2_2(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=paste(fileName2, "-scatterDiagram",        sep="",  collapse=NULL),  height1=height2,  width1=width2)
         
         FigureTemp2 <- ggplot( data = dataframeA, aes(x = xAxis, y = yAxis) ) + 
                 geom_point(size=0.1, colour="red", alpha=alpha2, fill="red", shape=20 ) +  
-                ylim(yMin2, yMax2) +  xlab(xLab2) +   ylab(yLab2) +   ggtitle(title2) + 
+                ylim(yMin2, yMax2)  +  xlab(xLab2) +   ylab(yLab2) +   ggtitle(title2) + 
                 MyTheme_1( textSize=14, hjust1=NULL, vjust1=NULL,  angle1=NULL )
         MySaveGgplot2_2(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-scatterDiagram-Red",    sep="",  collapse=NULL),  height1=height2,  width1=width2)
 }
+
+
+
+
+## scatter Diagra for 2 samples
+MyScatterDiagram_2 <- function(vector2X,  vector2Y,  path2,   fileName2,   xLab2,   yLab2,  title2,  height2=4,  width2=4,  yMin2=0, yMax2=2,  xMin2=0, xMax2=2,  alpha2=0.5) {
+        vector2Y[vector2Y>yMax2] <- yMax2
+        vector2Y[vector2Y<yMin2] <- yMin2
+        vector2X[vector2X>xMax2] <- xMax2
+        vector2X[vector2X<xMin2] <- xMin2
+        dataframeA <- data.frame( xAxis = vector2X,  yAxis = vector2Y ) 
+        
+        FigureTemp1 <- ggplot( data = dataframeA, aes(x = xAxis, y = yAxis) ) + 
+                geom_point(size=0.1, colour="grey45", alpha=alpha2, fill="grey45", shape=20 ) +  
+                ylim(yMin2, yMax2) +  xlim(xMin2, xMax2)+  xlab(xLab2) +   ylab(yLab2) +   ggtitle(title2) + 
+                MyTheme_1( textSize=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL)
+        MySaveGgplot2_2(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=paste(fileName2, "-GREY",   sep="",  collapse=NULL),  height1=height2,  width1=width2)
+        
+        FigureTemp2 <- ggplot( data = dataframeA, aes(x = xAxis, y = yAxis) ) + 
+                geom_point(size=0.1, colour="red", alpha=alpha2, fill="red", shape=20 ) +  
+                ylim(yMin2, yMax2) +  xlim(xMin2, xMax2)+  xlab(xLab2) +   ylab(yLab2) +   ggtitle(title2) + 
+                MyTheme_1( textSize=14, hjust1=NULL, vjust1=NULL,  angle1=NULL )
+        MySaveGgplot2_2(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-RED",    sep="",  collapse=NULL),  height1=height2,  width1=width2)
+}
+
+
+
 
 
 
@@ -1704,9 +1724,6 @@ MyHistogram_1 <- function(vector2,  path2,   fileName2,  title2,  xLab2, height2
 }
 
 
-
-
-
 ## absolute frequency histogram, number of sample type is 1.
 MyHistogram_2 <- function(vector2, path2,   fileName2,  title2,  xLab2,  height2=4,  width2=4,   xMin2=0,  xMax2=1.2,   yMin2=0,  yMax2=100) {
         vector2[vector2>xMax2] <- xMax2
@@ -1726,10 +1743,6 @@ MyHistogram_2 <- function(vector2, path2,   fileName2,  title2,  xLab2,  height2
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=paste(fileName2, "-count-limitY",    sep="",  collapse=NULL),  height1=height2,  width1=width2)
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-count",           sep="",  collapse=NULL),  height1=height2,  width1=width2)
 }
-
-
-
-
 
 
 ## density histogram, number of sample type is 1.   geom_histogram(x, alpha, colour, fill, linetype, size,  weight)
@@ -1765,11 +1778,6 @@ MyHistogram_3 <- function(vector2, path2,   fileName2,  title2,  xLab2,  height2
 }
 
 
-
-
-
-
-
 ## stacking
 MyHistogram_4 <- function(vector2, sampleType2,  path2,   fileName2,  title2,  xLab2, height2=4,  width2=4,  xMin2=0,  xMax2=1.2,   yMin2=0,  yMax2=100, alpha2=0.5) {
         vector2[vector2>xMax2] <- xMax2
@@ -1793,11 +1801,6 @@ MyHistogram_4 <- function(vector2, sampleType2,  path2,   fileName2,  title2,  x
 }
 
 
-
-
-
-
-
 ## dodge
 MyHistogram_5 <- function(vector2, sampleType2,  path2,   fileName2,  title2,  xLab2, height2=4,  width2=4,  xMin2=0,  xMax2=1.2,   yMin2=0,  yMax2=10) {
         vector2[vector2>xMax2] <- xMax2
@@ -1819,11 +1822,6 @@ MyHistogram_5 <- function(vector2, sampleType2,  path2,   fileName2,  title2,  x
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=paste(fileName2, "-density-limitY",    sep="",  collapse=NULL),  height1=height2,  width1=width2)
         MySaveGgplot2_1(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-density",           sep="",  collapse=NULL),  height1=height2,  width1=width2)
 }
-
-
-
-
-
 
 
 ## compare  probability  density
@@ -1887,10 +1885,6 @@ MyHistogram_6 <- function(vector2, sampleType2,  colours2,  path2,   fileName2, 
         MySaveGgplot2_2(ggplot2Figure1=FigureTemp6,  path1=path2, fileName1=paste(fileName2, "-density3",            sep="",  collapse=NULL),  height1=height2,  width1=width2)
         
 }
-
-
-
-
 
 
 ## compare  probability  density, xMax=0.6
@@ -1958,6 +1952,11 @@ MyHistogram_7 <- function(vector2, sampleType2,  colours2,  path2,   fileName2, 
 
 
 
+
+
+
+
+
 ## reduce columns of a matrix by average the nearest columns.
 reduceMatrixCol <- function(matrix_1, colNum_1=10 ) {     ## colNum_1: number of columns after reduced.
         allCol  <- ncol(matrix_1)
@@ -1973,7 +1972,6 @@ reduceMatrixCol <- function(matrix_1, colNum_1=10 ) {     ## colNum_1: number of
         }
         return(matrix2)
 }
-
 
 
 
@@ -1995,9 +1993,6 @@ reduceMatrixRow <- function(matrix_1,    rowNum_1=10 ) {     ## rowNum_1: number
 
 
 
-
-
-
 ## reduce the number of elements of vector by average the nearest elements. 
 reduceVector <- function(vector1, binNum1=10) { ## binNum1: number of elements after reduced.
         binLen1 = length(vector1)/binNum1
@@ -2014,10 +2009,6 @@ reduceVector <- function(vector1, binNum1=10) { ## binNum1: number of elements a
 
 
 
-
-
-
-
 numClasses <- function(index1, binNum1=10) { ## binNum1: number of classes 
         binLen1 = length(index1)/binNum1
         index2 <- list() 
@@ -2029,6 +2020,9 @@ numClasses <- function(index1, binNum1=10) { ## binNum1: number of classes
         }
         return(index2)
 }
+
+
+
 
 
 
@@ -2082,6 +2076,108 @@ MyHeatmap_2 <- function(matrix2,  path2,  fileName2,  title2,  xLab2,  yLab2,   
 
 
 
+## Generate quantile-quantile plot by using ggplot2.
+MyQQplot_ggplot2_1 <- function( x,   distribution = "norm",   ...,   line.estimate = NULL,  conf = 0.95,  labels = names(x) )  {  
+        q.function <- eval( parse(text = paste0("q", distribution)) )
+        d.function <- eval( parse(text = paste0("d", distribution)) )
+        x   <- na.omit(x)
+        ord <- order(x)
+        n   <- length(x)
+        P   <- ppoints(length(x))
+        df <- data.frame(ord.x = x[ord], z = q.function(P, ...))
+        
+        if(is.null(line.estimate)){
+                Q.x <- quantile(df$ord.x, c(0.25, 0.75))
+                Q.z <- q.function(c(0.25, 0.75), ...)
+                b <- diff(Q.x)/diff(Q.z)
+                coef <- c(Q.x[1] - b * Q.z[1], b)
+        } else {
+                coef <- coef(line.estimate(ord.x ~ z))
+        }
+        
+        zz <- qnorm(1 - (1 - conf)/2)
+        SE <- (coef[2]/d.function(df$z)) * sqrt(P * (1 - P)/n)
+        fit.value <- coef[1] + coef[2] * df$z
+        df$upper <- fit.value + zz * SE
+        df$lower <- fit.value - zz * SE
+        
+        if(!is.null(labels)){ 
+                df$label <- ifelse(df$ord.x > df$upper | df$ord.x < df$lower, labels[ord],"")
+        }
+        
+        p <- ggplot(df, aes(x=z, y=ord.x)) + geom_point(colour="red") + 
+                geom_abline(intercept = coef[1], slope = coef[2]) +
+                geom_ribbon(aes(ymin = lower, ymax = upper), alpha=0.2) 
+        if( !is.null(labels) ) { p <- p + geom_text( aes(label = label)) }
+        print(coef)
+        return(p)
+}
+
+
+## 不显示阴影部分
+MyQQplot_ggplot2_2 <- function( x,   distribution = "norm",   ...,   line.estimate = NULL,  conf = 0.95,  labels = names(x) )  {  
+        q.function <- eval( parse(text = paste0("q", distribution)) )
+        d.function <- eval( parse(text = paste0("d", distribution)) )
+        x   <- na.omit(x)
+        ord <- order(x)
+        n   <- length(x)
+        P   <- ppoints(length(x))
+        df <- data.frame(ord.x = x[ord], z = q.function(P, ...))
+        
+        if(is.null(line.estimate)){
+                Q.x <- quantile(df$ord.x, c(0.25, 0.75))
+                Q.z <- q.function(c(0.25, 0.75), ...)
+                b <- diff(Q.x)/diff(Q.z)
+                coef <- c(Q.x[1] - b * Q.z[1], b)
+        } else {
+                coef <- coef(line.estimate(ord.x ~ z))
+        }
+        
+        zz <- qnorm(1 - (1 - conf)/2)
+        SE <- (coef[2]/d.function(df$z)) * sqrt(P * (1 - P)/n)
+        fit.value <- coef[1] + coef[2] * df$z
+        df$upper <- fit.value + zz * SE
+        df$lower <- fit.value - zz * SE
+        
+        if(!is.null(labels)){ 
+                df$label <- ifelse(df$ord.x > df$upper | df$ord.x < df$lower, labels[ord],"")
+        }
+        
+        p <- ggplot(df, aes(x=z, y=ord.x)) + geom_point(colour="red") + 
+                geom_abline(intercept = coef[1], slope = coef[2]) 
+        if( !is.null(labels) ) { p <- p + geom_text( aes(label = label)) }
+        print(coef)
+        return(p)
+}
+
+
+
+MyQQplot_ggplot2_3 <- function(x2,  path2,  fileName2,  title2,  xLab2,  yLab2,   Ymin2=0,   Ymax2=10,   height2=3,  width2=4,  conf2=0.95,   dis2 = "norm" ) {  
+        FigureTemp1 <- MyQQplot_ggplot2_1(x=x2, distribution = dis2, conf=conf2) +   
+                xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + 
+                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL )  
+        MySaveGgplot2_2(ggplot2Figure1=FigureTemp1,  path1=path2, fileName1=paste(fileName2, "-1",  sep="",  collapse=NULL),  height1=height2, width1=width2)
+        
+        FigureTemp2 <- MyQQplot_ggplot2_1(x=x2, distribution = dis2, conf=conf2) +   
+                xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + ylim(Ymin2, Ymax2) +
+                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL )  
+        MySaveGgplot2_2(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-2",  sep="",  collapse=NULL),  height1=height2, width1=width2)
+        
+        FigureTemp3 <- MyQQplot_ggplot2_2(x=x2, distribution = dis2, conf=conf2) +   
+                xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + 
+                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL )  
+        MySaveGgplot2_2(ggplot2Figure1=FigureTemp3,  path1=path2, fileName1=paste(fileName2, "-3",  sep="",  collapse=NULL),  height1=height2, width1=width2)
+        
+        FigureTemp4 <- MyQQplot_ggplot2_2(x=x2, distribution = dis2, conf=conf2) +   
+                xlab(xLab2) +  ylab(yLab2) +  ggtitle(title2) + ylim(Ymin2, Ymax2) +
+                MyTheme_1(textSize1=14,  hjust1=NULL, vjust1=NULL,  angle1=NULL )  
+        MySaveGgplot2_2(ggplot2Figure1=FigureTemp2,  path1=path2, fileName1=paste(fileName2, "-4",  sep="",  collapse=NULL),  height1=height2, width1=width2)
+        
+}  
+
+
+
+
 
 
 
@@ -2131,6 +2227,9 @@ reduceMatrixRow(matrix_1,    rowNum_1=10 )
 reduceVector(vector1, binNum1=10)
 MyHeatmap_1(matrix2,  path2,  fileName2,  title2,  xLab2,  yLab2,   Ymin2=0,   Ymax2=10,   height2=3, width2=4, midpoint2=0.5,  limits2=c(0, 1)  )
 MyHeatmap_2(matrix2,  path2,  fileName2,  title2,  xLab2,  yLab2,   Ymin2=0,   Ymax2=10,   height2=3, width2=4, midpoint2=0.5,  limits2=c(0, 1)  ) 
+MyQQplot_ggplot2_1( x,   distribution = "norm",   ...,   line.estimate = NULL,  conf = 0.95,  labels = names(x) ) 
+MyQQplot_ggplot2_2( x,   distribution = "norm",   ...,   line.estimate = NULL,  conf = 0.95,  labels = names(x) ) 
+MyQQplot_ggplot2_3(x2,  path2,  fileName2,  title2,  xLab2,  yLab2,   Ymin2=0,   Ymax2=10,   height2=3,  width2=4,  conf2=0.95,   dis2 = "norm" )
 \n')
 sink()
 
