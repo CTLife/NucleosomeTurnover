@@ -131,8 +131,8 @@ write.table(x=thisRowNames3,  file=paste(Part2_g, "/Part2-1-C-rowNames.txt", sep
 			
 ######################################################### remove 1st-4th columns of each matrix
 H3_Rep1    <- as.matrix(H3_Rep1[, -c(1:4)]) 
-week0_Rep1 <- as.matrix(week0_Rep1[, -c(1:4)]) * 1.08
-week0_Rep2 <- as.matrix(week0_Rep2[, -c(1:4)]) * 1.08
+week0_Rep1 <- as.matrix(week0_Rep1[, -c(1:4)])  
+week0_Rep2 <- as.matrix(week0_Rep2[, -c(1:4)])  
 week1_Rep1 <- as.matrix(week1_Rep1[, -c(1:4)]) 
 week1_Rep2 <- as.matrix(week1_Rep2[, -c(1:4)]) 
 week2_Rep1 <- as.matrix(week2_Rep1[, -c(1:4)]) 
