@@ -2,9 +2,7 @@
 
 
 library("ggplot2") 
-library("reshape2") 
-library("psych")
-library("minerva")
+                    
 
 MyTheme_1 <- function(textSize1=14, hjust1=NULL, vjust1=NULL,  angle1=NULL) {    # "hjust=1, vjust=1, angle=30" for some boxplots.
   theme(  
